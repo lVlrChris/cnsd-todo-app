@@ -16,9 +16,9 @@ import javax.validation.constraints.NotBlank;
 @NoArgsConstructor
 @RequiredArgsConstructor
 public class ToDoTask {
-    @Id @GeneratedValue(strategy = GenerationType.IDENTITY) @NonNull
+    @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
-    @NonNull @NotBlank(message = "Task name cannot be blank")
+    @NotBlank(message = "Task name cannot be blank") @NonNull
     private String name;
     private String description;
 }

@@ -14,6 +14,7 @@ import java.util.List;
 import java.util.Optional;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.mockito.AdditionalAnswers.returnsFirstArg;
 
 @ExtendWith(MockitoExtension.class)
 public class ToDoTaskServiceTests {
@@ -51,5 +52,56 @@ public class ToDoTaskServiceTests {
         Mockito.when(mockRepo.findById(Mockito.anyLong())).thenReturn(Optional.of(response));
 
         // Act
+        ToDoTask result = service.findById(1);
+
+        // Assert
+        assertThat(result).isNotNull();
+        assertThat(result).isEqualTo(response);
+        Mockito.verify(mockRepo, Mockito.times(1)).findById(Mockito.anyLong());
+    }
+
+    @Test
+    public void testCreateTask() {
+        // Arrange
+        ToDoTask newTask = new ToDoTask("TestName");
+
+        Mockito.when(mockRepo.save(Mockito.any(ToDoTask.class))).then(returnsFirstArg());
+
+        // Act
+        ToDoTask result = service.createTask(newTask);
+
+        // Assert
+        assertThat(result).isNotNull();
+        assertThat(result).isEqualTo(newTask);
+        Mockito.verify(mockRepo, Mockito.times(1)).save(Mockito.any(ToDoTask.class));
+    }
+
+    @Test
+    public void testUpdateTask() {
+        // Arrange
+        ToDoTask updatedTask = new ToDoTask("TestName");
+
+        Mockito.when(mockRepo.save(Mockito.any(ToDoTask.class))).then(returnsFirstArg());
+        Mockito.when(mockRepo.existsById(Mockito.anyLong())).thenReturn(true);
+
+        // Act
+        ToDoTask result = service.updateTask(1L, updatedTask);
+
+        // Assert
+        assertThat(result).isNotNull();
+        assertThat(result).isEqualTo(updatedTask);
+        Mockito.verify(mockRepo, Mockito.times(1)).save(Mockito.any(ToDoTask.class));
+    }
+
+    @Test
+    public void testDeleteTask() {
+        // Arrange
+        Mockito.doNothing().when(mockRepo).deleteById(Mockito.anyLong());
+
+        // Act
+        service.deleteTask(1);
+
+        // Assert
+        Mockito.verify(mockRepo, Mockito.times(1)).deleteById(Mockito.anyLong());
     }
 }
