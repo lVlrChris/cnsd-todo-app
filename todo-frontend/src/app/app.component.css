@@ -1,0 +1,31 @@
+.list-row {
+    display: flex;
+    overflow-x: auto;
+}
+
+.list-row .task-list-add {
+    display: flex;
+    justify-content: center;
+    width: 57px;
+    height: 57px;
+    margin: 30px 15px;
+    background-color: #f2f2f2;
+    border-radius: 15px;
+}
+
+.list-row .task-list-add button {
+    width: 100%;
+    border: none;
+    border-radius: 15px;
+    font-size: 30px;
+    margin: 0px;
+    padding: 0;
+}
+
+.list-row .task-list-add button:hover {
+    background-color: #bdbdbd;
+}
+
+.list-row .task-list-add button:focus {
+    outline: none;
+}

@@ -1,0 +1,21 @@
+.header-text {
+    margin-right: 20px;
+}
+
+.dropdown-button {
+    min-width: 300px;
+    text-align: left;
+}
+
+.spacer {
+    flex: 1 1 auto;
+}
+
+.board-select {
+    background-color: #f2f2f2;
+    height: 40px;
+}
+
+.header-button {
+    margin-left: 16px;
+}

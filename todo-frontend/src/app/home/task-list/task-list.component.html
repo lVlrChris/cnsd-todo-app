@@ -1,0 +1,8 @@
+<div class="task-list">
+    <span class="task-header"><h2 class="task-list-title">List Title</h2><button>+</button></span>
+    <div *ngFor='let task of tasks' class="task">
+        <h3 class="task-title">{{task.name}}</h3>
+        <p class="task-content">{{task.description}}</p>
+    </div>
+</div>
+  
