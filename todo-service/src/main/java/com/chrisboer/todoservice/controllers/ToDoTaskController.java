@@ -10,8 +10,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 @RestController
-// TODO: Route tasks from correct resource
-@RequestMapping("api/v1/tasks")
+@RequestMapping("api/v1/boards/{boardId}/lists/{listId}/tasks")
 public class ToDoTaskController {
 
     private final ToDoTaskService toDoTaskService;
@@ -23,8 +22,9 @@ public class ToDoTaskController {
     }
 
     @GetMapping("")
-    public List<ToDoTaskDTO> getAll() {
-        return toDoTaskService.findAll()
+    public List<ToDoTaskDTO> getAll(@PathVariable("boardId") long boardId,
+                                    @PathVariable("listId") long listId) {
+        return toDoTaskService.findAll(boardId, listId)
                 .stream()
                 .map(task -> mapper.map(task, ToDoTaskDTO.class))
                 .collect(Collectors.toList());
@@ -35,7 +35,7 @@ public class ToDoTaskController {
         return mapper.map(toDoTaskService.findById(id), ToDoTaskDTO.class);
     }
 
-    @PostMapping
+    @PostMapping("")
     public ToDoTaskDTO createTask(@Valid @RequestBody ToDoTaskDTO newTask) {
         ToDoTask result = toDoTaskService.createTask(mapper.map(newTask, ToDoTask.class));
         return mapper.map(result, ToDoTaskDTO.class);

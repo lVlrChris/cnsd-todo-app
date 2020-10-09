@@ -1,5 +1,7 @@
 package com.chrisboer.todoservice.services;
 
+import com.chrisboer.todoservice.models.Board;
+import com.chrisboer.todoservice.models.TaskList;
 import com.chrisboer.todoservice.models.ToDoTask;
 import com.chrisboer.todoservice.repositories.ToDoTaskRepository;
 import org.junit.jupiter.api.Test;
@@ -28,15 +30,18 @@ public class ToDoTaskServiceTests {
     @Test
     public void testGetAllTasks() {
         // Arrange
+        Board parentBoard = new Board("Testboard");
+        TaskList parentList = new TaskList("Testlist", parentBoard);
+
         List<ToDoTask> response = Arrays.asList(
-                new ToDoTask("Task Name 1"),
-                new ToDoTask("Task Name 2"),
-                new ToDoTask("Task Name 3"));
+                new ToDoTask("Task Name 1", parentList),
+                new ToDoTask("Task Name 2", parentList),
+                new ToDoTask("Task Name 3", parentList));
 
         Mockito.when(mockRepo.findAll()).thenReturn(response);
 
         // Act
-        List<ToDoTask> result = service.findAll();
+        List<ToDoTask> result = service.findAll(parentBoard.getId(), parentList.getId());
 
         // Assert
         assertThat(result).isNotEmpty();
@@ -47,7 +52,10 @@ public class ToDoTaskServiceTests {
     @Test
     public void testGetTaskById() {
         // Arrange
-        ToDoTask response = new ToDoTask("TestName");
+        Board parentBoard = new Board("Testboard");
+        TaskList parentList = new TaskList("Testlist", parentBoard);
+
+        ToDoTask response = new ToDoTask("TestName", parentList);
 
         Mockito.when(mockRepo.findById(Mockito.anyLong())).thenReturn(Optional.of(response));
 
@@ -63,7 +71,10 @@ public class ToDoTaskServiceTests {
     @Test
     public void testCreateTask() {
         // Arrange
-        ToDoTask newTask = new ToDoTask("TestName");
+        Board parentBoard = new Board("Testboard");
+        TaskList parentList = new TaskList("Testlist", parentBoard);
+
+        ToDoTask newTask = new ToDoTask("TestName", parentList);
 
         Mockito.when(mockRepo.save(Mockito.any(ToDoTask.class))).then(returnsFirstArg());
 
@@ -79,7 +90,10 @@ public class ToDoTaskServiceTests {
     @Test
     public void testUpdateTask() {
         // Arrange
-        ToDoTask updatedTask = new ToDoTask("TestName");
+        Board parentBoard = new Board("Testboard");
+        TaskList parentList = new TaskList("Testlist", parentBoard);
+
+        ToDoTask updatedTask = new ToDoTask("TestName",parentList);
 
         Mockito.when(mockRepo.save(Mockito.any(ToDoTask.class))).then(returnsFirstArg());
         Mockito.when(mockRepo.existsById(Mockito.anyLong())).thenReturn(true);

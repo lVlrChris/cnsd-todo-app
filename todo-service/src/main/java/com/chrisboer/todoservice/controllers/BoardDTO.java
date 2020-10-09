@@ -3,13 +3,13 @@ package com.chrisboer.todoservice.controllers;
 import lombok.Data;
 
 import javax.validation.constraints.NotBlank;
+import java.util.List;
 
 @Data
-public class ToDoTaskDTO {
+public class BoardDTO {
     private long id;
-    @NotBlank(message = "Task name cannot be blank")
+    @NotBlank(message = "Board name cannot be blank")
     private String name;
     private String description;
-    @NotBlank(message = "Parent list is required")
-    private TaskListDTO list;
+    private List<TaskListDTO> lists;
 }

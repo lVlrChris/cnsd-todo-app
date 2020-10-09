@@ -1,5 +1,7 @@
 package com.chrisboer.todoservice.services;
 
+import com.chrisboer.todoservice.models.Board;
+import com.chrisboer.todoservice.models.TaskList;
 import com.chrisboer.todoservice.models.ToDoTask;
 import com.chrisboer.todoservice.repositories.ToDoTaskRepository;
 import org.springframework.stereotype.Service;
@@ -12,13 +14,26 @@ import java.util.List;
 public class ToDoTaskService {
 
     private final ToDoTaskRepository repo;
+    private final BoardService boardService;
+    private final TaskListService taskListService;
 
-    public ToDoTaskService(ToDoTaskRepository repo) {
+    public ToDoTaskService(ToDoTaskRepository repo,
+                           BoardService boardService,
+                           TaskListService taskListService) {
         this.repo = repo;
+        this.boardService = boardService;
+        this.taskListService = taskListService;
     }
 
-    public List<ToDoTask> findAll() {
-        return (List<ToDoTask>) repo.findAll();
+    //    public List<ToDoTask> findAll() {
+//        return (List<ToDoTask>) repo.findAll();
+//    }
+
+    public List<ToDoTask> findAll(long boardId, long listId) {
+        Board foundBoard = boardService.findById(boardId);
+        TaskList foundList = foundBoard.getLists().stream().filter(l -> l.getId() == listId).findFirst()
+                .orElseThrow(EntityNotFoundException::new);
+        return foundList.getTasks();
     }
 
     public ToDoTask findById(long id) {
