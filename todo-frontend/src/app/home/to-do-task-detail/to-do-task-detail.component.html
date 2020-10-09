@@ -1,1 +1,27 @@
-<p>to-do-task-detail works!</p>
+<h2 mat-dialog-title *ngIf="dialogData.createMode">Create Task:</h2>
+<h2 mat-dialog-title *ngIf="dialogData.editMode">Edit Task:</h2>
+
+<form [formGroup]="taskService.form" class="form" appearance="outline">
+<div mat-dialog-content>
+        <mat-form-field class="full-width-field">
+            <mat-label>Id</mat-label>
+            <input type="number" matInput formControlName="id">
+        </mat-form-field>
+        
+        <mat-form-field class="full-width-field" appearance="outline">
+            <mat-label>Name</mat-label>
+            <input matInput formControlName="name">
+            <mat-error>Name is required.</mat-error>
+        </mat-form-field>
+
+        <mat-form-field class="full-width-field" appearance="outline">
+            <mat-label>Description</mat-label>
+            <textarea matInput rows="4" formControlName="description"></textarea>
+        </mat-form-field>
+    </div>
+    <mat-dialog-actions align="end">
+        <button *ngIf="dialogData.createMode" mat-raised-button color="primary" [disabled]="!taskService.form.valid" (click)="onSubmit()">Create</button>
+        <button *ngIf="dialogData.editMode" mat-raised-button color="primary" [disabled]="!taskService.form.valid" (click)="onSubmit()">Edit</button>
+        <button mat-raised-button (click)="onClose()">Cancel</button>
+    </mat-dialog-actions>
+</form>

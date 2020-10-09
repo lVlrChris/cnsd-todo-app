@@ -19,3 +19,7 @@
 .header-button {
     margin-left: 16px;
 }
+
+mat-form-field.mat-form-field {
+    font-size: 14px;
+}
