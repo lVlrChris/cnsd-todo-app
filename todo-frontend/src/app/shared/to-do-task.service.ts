@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { FormGroup, FormControl } from '@angular/forms';
 import { TASKS } from '../home/task-list/mock-tasks';
-import { ToDoTask } from '../home/task-list/to-do-task';
+import { ToDoTask } from './to-do-task';
 import { Observable, of } from 'rxjs';
 import { Validators } from '@angular/forms';
 

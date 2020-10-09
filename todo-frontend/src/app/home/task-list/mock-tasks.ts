@@ -1,4 +1,4 @@
-import { ToDoTask } from './to-do-task';
+import { ToDoTask } from '../../shared/to-do-task';
 
 export const TASKS: ToDoTask[] = [
     { id: 1, name: 'Taak 1', description: 'Beschrijving'},

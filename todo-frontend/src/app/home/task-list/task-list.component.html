@@ -1,9 +1,8 @@
 <div class="task-list">
-    <span class="task-header"><h2 class="task-list-title">List Title</h2><button (click)="onCreateTask()">+</button></span>
+    <span class="task-header"><h2 class="task-list-title">{{list.name}}</h2><button (click)="onCreateTask()">+</button></span>
     <div *ngFor='let task of tasks' class="task" (click)='onEditTask(task)'>
         <h3 class="task-title">{{task.name}}</h3>
         <p class="task-content">{{task.description}}</p>
     </div>
 </div>
-<!-- <app-to-do-task-detail [task]="selectedTask"></app-to-do-task-detail> -->
   

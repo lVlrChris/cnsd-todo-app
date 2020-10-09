@@ -1,5 +1,7 @@
 import { BoundAttribute } from '@angular/compiler/src/render3/r3_ast';
 import { Component, OnInit } from '@angular/core';
+import { Board } from '../shared/board';
+import { BoardService } from '../shared/board.service';
 
 @Component({
   selector: 'app-header',
@@ -8,15 +10,15 @@ import { Component, OnInit } from '@angular/core';
 })
 export class HeaderComponent implements OnInit {
 
-  boards: string[] = [
-    'Board 1',
-    'Board 2',
-    'Board 3'
-  ];
-  currentBoard = this.boards[0];
+  boards: Board[];
 
-  constructor() { }
+  constructor(private boardService: BoardService) { }
 
   ngOnInit(): void {
+    this.getBoards();
+  }
+
+  getBoards(): void {
+    this.boardService.getBoards().subscribe(boards => this.boards = boards);
   }
 }

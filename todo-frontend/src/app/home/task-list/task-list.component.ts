@@ -1,8 +1,9 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { MatDialogConfig } from '@angular/material/dialog';
+import { List } from 'src/app/shared/list';
 import { ToDoTaskService } from 'src/app/shared/to-do-task.service';
-import { ToDoTask } from './to-do-task';
+import { ToDoTask } from '../../shared/to-do-task';
 import { ToDoTaskDetailComponent } from '../to-do-task-detail/to-do-task-detail.component';
 
 @Component({
@@ -12,8 +13,8 @@ import { ToDoTaskDetailComponent } from '../to-do-task-detail/to-do-task-detail.
 })
 export class TaskListComponent implements OnInit {
 
+  @Input() list: List;
   tasks: ToDoTask[];
-  selectedTask: ToDoTask;
 
   constructor(private taskService: ToDoTaskService,
               private dialog: MatDialog) { }

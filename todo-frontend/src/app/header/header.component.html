@@ -2,9 +2,9 @@
     <span class="header-text">CNSD To Do App</span>
     <mat-form-field appearance="legacy">
         <mat-label>Current Board</mat-label>
-        <mat-select [(value)]="currentBoard" panelClass="board-select">
-            <mat-option [value]="board" *ngFor="let board of boards">{{ board }}</mat-option>
-          </mat-select>
+        <mat-select panelClass="board-select">
+            <mat-option [value]="board" *ngFor="let board of boards" routerLink="board/{{board.id}}">{{ board.name }}</mat-option>
+        </mat-select>
     </mat-form-field>
     <span class="spacer"></span>
     <button mat-raised-button color="basic" class="header-button">Log in</button>

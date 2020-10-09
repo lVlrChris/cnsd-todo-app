@@ -9,13 +9,16 @@ import { TaskListComponent } from './home/task-list/task-list.component';
 import { HeaderComponent } from './header/header.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { MaterialModule } from './material/material.module';
+import { BoardComponent } from './home/board/board.component';
+import { HttpClientModule } from '@angular/common/http';
 
 @NgModule({
   declarations: [
     AppComponent,
     ToDoTaskDetailComponent,
     TaskListComponent,
-    HeaderComponent
+    HeaderComponent,
+    BoardComponent
   ],
   imports: [
     BrowserModule,
@@ -23,7 +26,8 @@ import { MaterialModule } from './material/material.module';
     FormsModule,
     ReactiveFormsModule,
     BrowserAnimationsModule,
-    MaterialModule
+    MaterialModule,
+    HttpClientModule
   ],
   providers: [],
   bootstrap: [AppComponent]
