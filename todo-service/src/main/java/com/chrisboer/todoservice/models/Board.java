@@ -1,6 +1,5 @@
 package com.chrisboer.todoservice.models;
 
-import com.fasterxml.jackson.annotation.JsonBackReference;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.NonNull;
@@ -24,6 +23,5 @@ public class Board {
     private String name;
     private String description;
     @OneToMany(mappedBy = "board", cascade = CascadeType.REMOVE)
-    @JsonBackReference
     private List<TaskList> lists;
 }

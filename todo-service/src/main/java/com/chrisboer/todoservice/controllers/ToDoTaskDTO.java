@@ -1,5 +1,6 @@
 package com.chrisboer.todoservice.controllers;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import lombok.Data;
 
 import javax.validation.constraints.NotBlank;
@@ -10,6 +11,6 @@ public class ToDoTaskDTO {
     @NotBlank(message = "Task name cannot be blank")
     private String name;
     private String description;
-    @NotBlank(message = "Parent list is required")
+    @JsonBackReference
     private TaskListDTO list;
 }

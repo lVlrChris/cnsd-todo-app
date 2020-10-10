@@ -20,13 +20,9 @@ public class TaskListService {
         this.boardService = boardService;
     }
 
-//    public List<TaskList> findAll() {
-//        return (List<TaskList>) repo.findAll();
-//    }
-
     public List<TaskList> findAll(long boardId) {
         Board foundBoard = boardService.findById(boardId);
-        return repo.findByBoard(foundBoard);
+        return repo.findAllByBoard(foundBoard);
     }
 
     public TaskList findById(long id) {
@@ -39,9 +35,13 @@ public class TaskListService {
         return repo.save(taskList);
     }
 
-    public TaskList updateTaskList(long id, @Valid TaskList updatedTaskList) {
-        if (repo.existsById(id)) {
-            return repo.save(updatedTaskList);
+    public TaskList updateTaskList(long id, @Valid TaskList updatedTaskList, long boardId) {
+        Board foundBoard = boardService.findById(boardId);
+        TaskList foundList = repo.findById(id).orElseThrow(EntityNotFoundException::new);
+
+        if (foundBoard.getLists().contains(foundList)) {
+            foundList.setName(updatedTaskList.getName());
+            return repo.save(foundList);
         } else {
             throw new EntityNotFoundException();
         }

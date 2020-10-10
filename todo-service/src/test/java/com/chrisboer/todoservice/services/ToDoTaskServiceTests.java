@@ -11,6 +11,7 @@ import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
@@ -22,7 +23,9 @@ import static org.mockito.AdditionalAnswers.returnsFirstArg;
 public class ToDoTaskServiceTests {
 
     @Mock
-    ToDoTaskRepository mockRepo;
+    ToDoTaskRepository mockTaskRepo;
+    @Mock
+    BoardService mockBoardService;
 
     @InjectMocks
     ToDoTaskService service;
@@ -31,22 +34,30 @@ public class ToDoTaskServiceTests {
     public void testGetAllTasks() {
         // Arrange
         Board parentBoard = new Board("Testboard");
-        TaskList parentList = new TaskList("Testlist", parentBoard);
+        parentBoard.setId(1);
 
-        List<ToDoTask> response = Arrays.asList(
+        TaskList parentList = new TaskList("Testlist", parentBoard);
+        parentList.setId(1);
+        List<TaskList> lists = new ArrayList<TaskList>();
+        parentBoard.setLists(lists);
+        parentBoard.getLists().add(parentList);
+
+        List<ToDoTask> tasks = Arrays.asList(
                 new ToDoTask("Task Name 1", parentList),
                 new ToDoTask("Task Name 2", parentList),
                 new ToDoTask("Task Name 3", parentList));
+        parentList.setTasks(tasks);
 
-        Mockito.when(mockRepo.findAll()).thenReturn(response);
+//        Mockito.when(mockTaskRepo.findAll()).thenReturn(response);
+        Mockito.when(mockBoardService.findById(Mockito.anyLong())).thenReturn(parentBoard);
 
         // Act
-        List<ToDoTask> result = service.findAll(parentBoard.getId(), parentList.getId());
+        List<ToDoTask> result = service.findAll(1, 1);
 
         // Assert
         assertThat(result).isNotEmpty();
-        assertThat(result).isEqualTo(response);
-        Mockito.verify(mockRepo, Mockito.times(1)).findAll();
+        assertThat(result).isEqualTo(tasks);
+        Mockito.verify(mockBoardService, Mockito.times(1)).findById(Mockito.anyLong());
     }
 
     @Test
@@ -57,7 +68,7 @@ public class ToDoTaskServiceTests {
 
         ToDoTask response = new ToDoTask("TestName", parentList);
 
-        Mockito.when(mockRepo.findById(Mockito.anyLong())).thenReturn(Optional.of(response));
+        Mockito.when(mockTaskRepo.findById(Mockito.anyLong())).thenReturn(Optional.of(response));
 
         // Act
         ToDoTask result = service.findById(1);
@@ -65,57 +76,78 @@ public class ToDoTaskServiceTests {
         // Assert
         assertThat(result).isNotNull();
         assertThat(result).isEqualTo(response);
-        Mockito.verify(mockRepo, Mockito.times(1)).findById(Mockito.anyLong());
+        Mockito.verify(mockTaskRepo, Mockito.times(1)).findById(Mockito.anyLong());
     }
 
     @Test
     public void testCreateTask() {
         // Arrange
         Board parentBoard = new Board("Testboard");
+        parentBoard.setId(1);
         TaskList parentList = new TaskList("Testlist", parentBoard);
+        parentList.setId(1);
+        List<TaskList> lists = new ArrayList<TaskList>();
+        parentBoard.setLists(lists);
+        parentBoard.getLists().add(parentList);
 
         ToDoTask newTask = new ToDoTask("TestName", parentList);
 
-        Mockito.when(mockRepo.save(Mockito.any(ToDoTask.class))).then(returnsFirstArg());
+        Mockito.when(mockTaskRepo.save(Mockito.any(ToDoTask.class))).then(returnsFirstArg());
+        Mockito.when(mockBoardService.findById(Mockito.anyLong())).thenReturn(parentBoard);
 
         // Act
-        ToDoTask result = service.createTask(newTask);
+        ToDoTask result = service.createTask(newTask, parentBoard.getId(), parentList.getId());
 
         // Assert
         assertThat(result).isNotNull();
         assertThat(result).isEqualTo(newTask);
-        Mockito.verify(mockRepo, Mockito.times(1)).save(Mockito.any(ToDoTask.class));
+        Mockito.verify(mockTaskRepo, Mockito.times(1)).save(Mockito.any(ToDoTask.class));
+        Mockito.verify(mockBoardService, Mockito.times(1)).findById(Mockito.anyLong());
     }
 
     @Test
     public void testUpdateTask() {
         // Arrange
         Board parentBoard = new Board("Testboard");
+        parentBoard.setId(1);
+
         TaskList parentList = new TaskList("Testlist", parentBoard);
+        parentList.setId(1);
+        List<TaskList> lists = new ArrayList<TaskList>();
+        parentBoard.setLists(lists);
+        parentBoard.getLists().add(parentList);
 
-        ToDoTask updatedTask = new ToDoTask("TestName",parentList);
+        ToDoTask oldTask = new ToDoTask("TestName", parentList);
+        oldTask.setId(1);
+        List<ToDoTask> tasks = new ArrayList<ToDoTask>();
+        parentList.setTasks(tasks);
+        parentList.getTasks().add(oldTask);
 
-        Mockito.when(mockRepo.save(Mockito.any(ToDoTask.class))).then(returnsFirstArg());
-        Mockito.when(mockRepo.existsById(Mockito.anyLong())).thenReturn(true);
+        ToDoTask updatedTask = new ToDoTask("NewTestName", parentList);
+        updatedTask.setId(1);
+
+        Mockito.when(mockBoardService.findById(Mockito.anyLong())).thenReturn(parentBoard);
+        Mockito.when(mockTaskRepo.save(Mockito.any(ToDoTask.class))).then(returnsFirstArg());
 
         // Act
-        ToDoTask result = service.updateTask(1L, updatedTask);
+        ToDoTask result = service.updateTask(1L, updatedTask, parentBoard.getId(), parentList.getId());
 
         // Assert
         assertThat(result).isNotNull();
         assertThat(result).isEqualTo(updatedTask);
-        Mockito.verify(mockRepo, Mockito.times(1)).save(Mockito.any(ToDoTask.class));
+        Mockito.verify(mockTaskRepo, Mockito.times(1)).save(Mockito.any(ToDoTask.class));
+        Mockito.verify(mockBoardService, Mockito.times(1)).findById(Mockito.anyLong());
     }
 
     @Test
     public void testDeleteTask() {
         // Arrange
-        Mockito.doNothing().when(mockRepo).deleteById(Mockito.anyLong());
+        Mockito.doNothing().when(mockTaskRepo).deleteById(Mockito.anyLong());
 
         // Act
         service.deleteTask(1);
 
         // Assert
-        Mockito.verify(mockRepo, Mockito.times(1)).deleteById(Mockito.anyLong());
+        Mockito.verify(mockTaskRepo, Mockito.times(1)).deleteById(Mockito.anyLong());
     }
 }

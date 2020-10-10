@@ -7,6 +7,7 @@ import lombok.RequiredArgsConstructor;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
 
 @Entity
 @Data
@@ -19,9 +20,8 @@ public class ToDoTask {
     @Column(nullable = false)
     private String name;
     private String description;
-    @NonNull
+    @NonNull @NotNull(message = "Task requires a parent list")
     @ManyToOne(optional = false)
-//    @JsonBackReference
     @JoinColumn(name = "task_list_id")
     private TaskList list;
 }

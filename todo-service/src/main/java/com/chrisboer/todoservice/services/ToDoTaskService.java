@@ -15,19 +15,12 @@ public class ToDoTaskService {
 
     private final ToDoTaskRepository repo;
     private final BoardService boardService;
-    private final TaskListService taskListService;
 
     public ToDoTaskService(ToDoTaskRepository repo,
-                           BoardService boardService,
-                           TaskListService taskListService) {
+                           BoardService boardService) {
         this.repo = repo;
         this.boardService = boardService;
-        this.taskListService = taskListService;
     }
-
-    //    public List<ToDoTask> findAll() {
-//        return (List<ToDoTask>) repo.findAll();
-//    }
 
     public List<ToDoTask> findAll(long boardId, long listId) {
         Board foundBoard = boardService.findById(boardId);
@@ -40,16 +33,25 @@ public class ToDoTaskService {
         return repo.findById(id).orElseThrow(EntityNotFoundException::new);
     }
 
-    public ToDoTask createTask(@Valid ToDoTask toDoTask) {
+    public ToDoTask createTask(@Valid ToDoTask toDoTask, long boardId, long listId) {
+        Board foundBoard = boardService.findById(boardId);
+        TaskList foundList = foundBoard.getLists().stream().filter(l -> l.getId() == listId).findFirst()
+                .orElseThrow(EntityNotFoundException::new);
+        toDoTask.setList(foundList);
         return repo.save(toDoTask);
     }
 
-    public ToDoTask updateTask(long id, @Valid ToDoTask updatedTask) {
-        if (repo.existsById(id)) {
-            return repo.save(updatedTask);
-        } else {
-            throw new EntityNotFoundException();
-        }
+    public ToDoTask updateTask(long id, @Valid ToDoTask updatedTask, long boardId, long listId) {
+        Board foundBoard = boardService.findById(boardId);
+        TaskList foundList = foundBoard.getLists().stream().filter(l -> l.getId() == listId).findFirst()
+                .orElseThrow(EntityNotFoundException::new);
+        ToDoTask foundTask = foundList.getTasks().stream().filter(t -> t.getId() == id).findFirst()
+                .orElseThrow(EntityNotFoundException::new);
+
+        foundTask.setName(updatedTask.getName());
+        foundTask.setDescription(updatedTask.getDescription());
+
+        return repo.save(foundTask);
     }
 
     public void deleteTask(long id) {

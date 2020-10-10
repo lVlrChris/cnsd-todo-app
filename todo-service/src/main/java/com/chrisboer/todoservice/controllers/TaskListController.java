@@ -42,8 +42,10 @@ public class TaskListController {
     }
 
     @PutMapping("/{id}")
-    public TaskListDTO updateTaskList(@PathVariable("id") long id, @Valid @RequestBody TaskListDTO updatedTaskList) {
-        TaskList result = taskListService.updateTaskList(id, mapper.map(updatedTaskList, TaskList.class));
+    public TaskListDTO updateTaskList(@PathVariable("id") long id,
+                                      @Valid @RequestBody TaskListDTO updatedTaskList,
+                                      @PathVariable("boardId") long boardId) {
+        TaskList result = taskListService.updateTaskList(id, mapper.map(updatedTaskList, TaskList.class), boardId);
         return mapper.map(result, TaskListDTO.class);
     }
 

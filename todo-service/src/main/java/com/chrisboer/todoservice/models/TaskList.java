@@ -1,6 +1,5 @@
 package com.chrisboer.todoservice.models;
 
-import com.fasterxml.jackson.annotation.JsonManagedReference;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.NonNull;
@@ -23,11 +22,9 @@ public class TaskList {
     @Column(nullable = false)
     private String name;
     @OneToMany(mappedBy = "list", cascade = CascadeType.REMOVE)
-//    @JsonManagedReference
     private List<ToDoTask> tasks;
     @NonNull @NotNull(message = "List requires a parent board")
     @ManyToOne(optional = false)
     @JoinColumn(name = "board_id")
-    @JsonManagedReference
     private Board board;
 }

@@ -8,6 +8,5 @@ import java.util.List;
 
 public interface TaskListRepository extends PagingAndSortingRepository<TaskList, Long> {
 
-    //TODO: try @query here to fix recursion problem
-    List<TaskList> findByBoard(Board board);
+    List<TaskList> findAllByBoard(Board board);
 }

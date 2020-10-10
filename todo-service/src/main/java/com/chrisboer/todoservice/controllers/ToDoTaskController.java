@@ -36,14 +36,19 @@ public class ToDoTaskController {
     }
 
     @PostMapping("")
-    public ToDoTaskDTO createTask(@Valid @RequestBody ToDoTaskDTO newTask) {
-        ToDoTask result = toDoTaskService.createTask(mapper.map(newTask, ToDoTask.class));
+    public ToDoTaskDTO createTask(@Valid @RequestBody ToDoTaskDTO newTask,
+                                  @PathVariable("boardId") long boardId,
+                                  @PathVariable("listId") long listId) {
+        ToDoTask result = toDoTaskService.createTask(mapper.map(newTask, ToDoTask.class), boardId, listId);
         return mapper.map(result, ToDoTaskDTO.class);
     }
 
     @PutMapping("/{id}")
-    public ToDoTaskDTO updateTask(@PathVariable("id") long id, @Valid @RequestBody ToDoTaskDTO updatedTask) {
-        ToDoTask result = toDoTaskService.updateTask(id, mapper.map(updatedTask, ToDoTask.class));
+    public ToDoTaskDTO updateTask(@PathVariable("id") long id,
+                                  @Valid @RequestBody ToDoTaskDTO updatedTask,
+                                  @PathVariable("boardId") long boardId,
+                                  @PathVariable("listId") long listId) {
+        ToDoTask result = toDoTaskService.updateTask(id, mapper.map(updatedTask, ToDoTask.class), boardId, listId);
         return mapper.map(result, ToDoTaskDTO.class);
     }
 
