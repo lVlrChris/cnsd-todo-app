@@ -13,3 +13,9 @@ phases:
 artifacts:
   files:
     - todo-service/target/todo-service-0.0.1-SNAPSHOT.jar
+
+reports:
+  surefire-reports:
+    files:
+      - "todo-service/target/surefire-reports/*.xml"
+    file-formats: "JUNITXML"
