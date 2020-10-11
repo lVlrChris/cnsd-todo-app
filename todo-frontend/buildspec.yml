@@ -1,0 +1,21 @@
+version: 0.2
+
+phases:
+    install:
+        runtime-versions:
+            nodejs: 12
+        commands:
+            - echo Installing npm dependencies
+            - cd todo-frontend
+            - npm install
+            - npm install -g @angular/cli
+    build:
+        commands:
+            - echo Build starting...
+            - ng build
+
+artifacts:
+    files:
+        - '**/*'
+    base-directory: 'todo-frontend/dist*'
+    discard-paths: yes
