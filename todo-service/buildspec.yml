@@ -12,4 +12,4 @@ phases:
       - mvn package
 artifacts:
   files:
-    - target/todo-service:jar:0.0.1-SNAPSHOT.jar
+    - target/todo-service-0.0.1-SNAPSHOT.jar
