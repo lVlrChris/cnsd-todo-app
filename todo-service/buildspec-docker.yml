@@ -29,5 +29,6 @@ phases:
       - cd /
       - pwd
       - printf '[{"name":"cnsd-todo-app-container","imageUri":"%s"}]' $REPOSITORY_URI:$IMAGE_TAG > imagedefinitions.json
+      - ls -al
 artifacts:
   files: imagedefinitions.json
