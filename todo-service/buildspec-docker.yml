@@ -25,10 +25,9 @@ phases:
       - echo Pushing the Docker images...
       - docker push $REPOSITORY_URI:latest
       - docker push $REPOSITORY_URI:$IMAGE_TAG
+      - docker image ls
       - echo Writing image definitions file...
-      - pwd
       - printf '[{"name":"cnsd-todo-app-container","imageUri":"%s"}]' $REPOSITORY_URI:$IMAGE_TAG > ../imagedefinitions.json
-      - ls -al
 artifacts:
   files:
     - imagedefinitions.json
