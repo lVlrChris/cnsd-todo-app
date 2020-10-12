@@ -15,6 +15,8 @@ artifacts:
     - todo-service/target/todo-service-0.0.1-SNAPSHOT.jar
     - todo-service/buildspec-docker.yml
     - todo-service/dockerfile
+    - todo-service/taskdef.json
+    - todo-service/appspec.yml
 
 reports:
   surefire-reports:

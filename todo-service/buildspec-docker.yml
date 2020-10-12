@@ -27,7 +27,9 @@ phases:
       - docker push $REPOSITORY_URI:latest
       - docker push $REPOSITORY_URI:$IMAGE_TAG
       - echo Writing image definitions file...
-      - printf '[{"name":"cnsd-todo-app-container","imageUri":"%s"}]' $REPOSITORY_URI:latest > ../imagedefinitions.json
+      - printf '[{"name":"cnsd-todo-app-container","imageUri":"%s"}]' $REPOSITORY_URI:$IMAGE_TAG > imagedefinitions.json
 artifacts:
   files:
-    - imagedefinitions.json
+    - todo-service/imagedefinitions.json
+    - todo-service/taskdef.json
+    - todo-service/appspec.yml

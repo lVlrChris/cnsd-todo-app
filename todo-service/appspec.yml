@@ -1,5 +1,10 @@
 version: 0.0
-os: linux
-files:
-  - source: ./todo-service-0.0.1-SNAPSHOT.jar
-    destination: /tmp
+Resources:
+  - TargetService:
+      Type: AWS::ECS::Service
+      Properties:
+        TaskDefinition: "arn:aws:ecs:us-east-1:356382934428:task-definition/cnsd-todo-task:8"
+        LoadBalancerInfo:
+          ContainerName: "cnsd-todo-app-container"
+          ContainerPort: 8080
+        PlatformVersion: "LATEST"
