@@ -98,6 +98,10 @@
             <artifactId>assertj-core</artifactId>
             <version>3.17.2</version>
         </dependency>
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-actuator</artifactId>
+        </dependency>
     </dependencies>
 
     <dependencyManagement>
