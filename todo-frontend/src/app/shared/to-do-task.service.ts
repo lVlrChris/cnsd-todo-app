@@ -1,9 +1,9 @@
 import { Injectable } from '@angular/core';
 import { FormGroup, FormControl } from '@angular/forms';
-import { TASKS } from '../home/task-list/mock-tasks';
 import { ToDoTask } from './to-do-task';
 import { Observable, of } from 'rxjs';
 import { Validators } from '@angular/forms';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 
 @Injectable({
   providedIn: 'root'
@@ -16,10 +16,25 @@ export class ToDoTaskService {
     description: new FormControl('')
   });
 
-  constructor() { }
+  private baseURL = 'http://localhost:8080/api/v1/';
+  private httpOptions = { headers: new HttpHeaders({ 'Content-Type': 'application/json'})};
 
-  getTasks(): Observable<ToDoTask[]> {
-    return of(TASKS);
+  constructor(private http: HttpClient) { }
+
+  getTasks(boardId: number, listId: number): Observable<ToDoTask[]> {
+    const url = `${this.baseURL}boards/${boardId}/lists/${listId}/tasks`;
+    return this.http.get<ToDoTask[]>(url);
+  }
+
+  createTask(boardId: number, listId: number, task: ToDoTask): Observable<ToDoTask> {
+    const url = `${this.baseURL}boards/${boardId}/lists/${listId}/tasks`;
+    return this.http.post<ToDoTask>(url, task, this.httpOptions);
+  }
+
+  updateTask(boardId: number, listId: number, task: ToDoTask): Observable<ToDoTask> {
+    const url = `${this.baseURL}boards/${boardId}/lists/${listId}/tasks/${task.id}`;
+    // console.log(task);
+    return this.http.put<ToDoTask>(url, task, this.httpOptions);
   }
 
   initializeForm(): void {

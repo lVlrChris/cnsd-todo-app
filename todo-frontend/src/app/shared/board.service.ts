@@ -1,25 +1,24 @@
 import { Injectable } from '@angular/core';
 import { Observable, of } from 'rxjs';
 import { Board } from './board';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 
 @Injectable({
   providedIn: 'root'
 })
 export class BoardService {
 
-  boards: Board[] = [
-    { id: 0, name: 'Board 1' },
-    { id: 1, name: 'Board 2' },
-    { id: 2, name: 'Board 3' }
-  ];
+  private baseURL = 'http://localhost:8080/api/v1/';
 
-  constructor() { }
+  constructor(private http: HttpClient) { }
 
   getBoards(): Observable<Board[]> {
-    return of(this.boards);
+    const url = `${this.baseURL}boards`;
+    return this.http.get<Board[]>(url);
   }
 
   getBoard(id: number): Observable<Board> {
-    return of(this.boards.find(b => b.id === id));
+    const url = `${this.baseURL}boards/${id}`;
+    return this.http.get<Board>(url);
   }
 }

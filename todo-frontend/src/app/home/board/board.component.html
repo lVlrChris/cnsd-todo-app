@@ -1,9 +1,6 @@
 <div class="list-row">
     <app-task-list *ngFor="let list of lists" [list]=list></app-task-list>
     <div class="task-list-add">
-        <button>+</button>
-    </div>
-    <div class="task-list-add">
-        <button>+</button>
+        <button (click)="onCreateList()">+</button>
     </div>
 </div>

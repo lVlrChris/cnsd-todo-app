@@ -11,6 +11,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { MaterialModule } from './material/material.module';
 import { BoardComponent } from './home/board/board.component';
 import { HttpClientModule } from '@angular/common/http';
+import { TaskListDetailComponent } from './home/task-list-detail/task-list-detail.component';
 
 @NgModule({
   declarations: [
@@ -18,7 +19,8 @@ import { HttpClientModule } from '@angular/common/http';
     ToDoTaskDetailComponent,
     TaskListComponent,
     HeaderComponent,
-    BoardComponent
+    BoardComponent,
+    TaskListDetailComponent
   ],
   imports: [
     BrowserModule,
