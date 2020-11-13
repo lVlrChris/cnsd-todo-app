@@ -4,6 +4,7 @@ import { ToDoTask } from './to-do-task';
 import { Observable, of } from 'rxjs';
 import { Validators } from '@angular/forms';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { environment } from 'src/environments/environment';
 
 @Injectable({
   providedIn: 'root'
@@ -16,7 +17,7 @@ export class ToDoTaskService {
     description: new FormControl('')
   });
 
-  private baseURL = 'http://localhost:8080/api/v1/';
+  private baseURL = environment.apiUrl;
   private httpOptions = { headers: new HttpHeaders({ 'Content-Type': 'application/json'})};
 
   constructor(private http: HttpClient) { }

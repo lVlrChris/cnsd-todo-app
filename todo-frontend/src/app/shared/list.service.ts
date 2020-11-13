@@ -4,6 +4,7 @@ import { FormControl, FormGroup } from '@angular/forms';
 import { Observable, of } from 'rxjs';
 import { Validators } from '@angular/forms';
 import { List } from './list';
+import { environment } from 'src/environments/environment';
 
 @Injectable({
   providedIn: 'root'
@@ -15,7 +16,7 @@ export class ListService {
     name: new FormControl('', Validators.required)
   });
 
-  private baseURL = 'http://localhost:8080/api/v1/';
+  private baseURL = environment.apiUrl;
   private httpOptions = { headers: new HttpHeaders({ 'Content-Type': 'application/json'})};
 
   constructor(private http: HttpClient) { }
